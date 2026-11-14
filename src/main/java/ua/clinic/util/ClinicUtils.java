@@ -3,7 +3,7 @@ package ua.clinic.util;
 import ua.clinic.model.Appointment;
 import ua.clinic.model.Doctor;
 import ua.clinic.model.Patient;
-
+import ua.clinic.model.MedicalRecord;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
@@ -65,5 +65,14 @@ public class ClinicUtils {
 
     public static String formatEnum(String input) {
         return FormatHelper.normalizeEnum(input);
+    }
+
+    public static String formatTreatmentCost(MedicalRecord record) {
+        ValidationHelper.requireNotNull(record, "record");
+        return FormatHelper.formatMoney(record.getTreatmentCost());
+    }
+
+    public static String capitalizeText(String text) {
+        return FormatHelper.capitalize(text);
     }
 }

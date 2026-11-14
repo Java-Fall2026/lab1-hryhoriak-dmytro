@@ -43,17 +43,39 @@ public class Main {
         app1.setStatus(" COMPLETED ");
         System.out.println("Статус після: " + app1.getStatus());
 
+        System.out.println("\n=== 4b. Сетер з некоректним значенням ===");
+        try {
+            app1.setStatus("FINISHED");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Помилка: " + e.getMessage());
+        }
+        System.out.println("Статус після невдалої спроби: " + app1.getStatus());
+
         System.out.println("\n=== 5. Два об'єкти з однаковими даними (== та equals) ===");
         Patient p2 = new Patient("ID-12345", "Ivan Ivanov", LocalDate.of(1990, 5, 15));
         System.out.println("p1 == p2 : " + (p1 == p2));
         System.out.println("p1.equals(p2) : " + p1.equals(p2));
 
+        System.out.println("\n=== 5b. hashCode() та різні об'єкти ===");
+        System.out.println("p1.hashCode() = " + p1.hashCode());
+        System.out.println("p2.hashCode() = " + p2.hashCode());
+        System.out.println("Хеш-коди p1 і p2 рівні: " + (p1.hashCode() == p2.hashCode()));
+
+        Patient p3 = new Patient("ID-99999", "Petro Petrenko", LocalDate.of(1985, 3, 20));
+        System.out.println("p1.equals(p3) : " + p1.equals(p3));
+        System.out.println("p1.hashCode() = " + p1.hashCode() + ", p3.hashCode() = " + p3.hashCode());
+
         System.out.println("\n=== 6. Виклик обчислюваних методів ===");
         System.out.println("Тривалість прийому (хв): " + ClinicUtils.durationMinutes(app1));
         System.out.println("Вік пацієнта (років): " + ClinicUtils.patientAge(p1));
 
+        System.out.println("\n=== 6b. Форматування ===");
+        MedicalRecord record = MedicalRecord.of("REC-001", app1, "healthy", 150.50);
+        System.out.println("Вартість лікування: " + ClinicUtils.formatTreatmentCost(record));
+        System.out.println("Діагноз (capitalize): " + ClinicUtils.capitalizeText(record.getDiagnosis()));
+        System.out.println("Capitalize 'hEaLtHy': " + ClinicUtils.capitalizeText("hEaLtHy"));
+
         System.out.println("\n=== 7. Вивід усіх сутностей через toString() ===");
-        MedicalRecord record = MedicalRecord.of("REC-001", app1, "Healthy", 150.50);
         System.out.println(p1);
         System.out.println(d1);
         System.out.println(app1);
@@ -61,7 +83,6 @@ public class Main {
 
         System.out.println("\n=== 8. Закоментований рядок (порушення доступу) ===");
         // ValidationHelper.requireNotNull(p1, "p1");
-        // Коментар: Клас ValidationHelper має доступ package-private, тому з пакету ua.clinic він невидимий.
+        // Comment: ValidationHelper is package-private (ua.clinic.util), so it is not visible from package ua.clinic.
     }
 }
-
